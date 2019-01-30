@@ -13,9 +13,9 @@ from nltk.stem import SnowballStemmer
 
 path = '../input/'
 comp = ''
-EMBEDDING_FILE=f'{path}/glove.6B.50d.txt'
-TRAIN_DATA_FILE=f'{path}{comp}train.csv'
-TEST_DATA_FILE=f'{path}{comp}test.csv'
+EMBEDDING_FILE="." + "/glove.840B.300d.txt"
+TRAIN_DATA_FILE='./train.csv'
+TEST_DATA_FILE='./test.csv'
 
 embed_size = 50 # how big is each word vector
 max_features = 20000 # how many unique words to use (i.e num rows in embedding vector)
@@ -25,10 +25,10 @@ number_filters = 100 # the number of CNN filters
 train = pd.read_csv(TRAIN_DATA_FILE)
 test = pd.read_csv(TEST_DATA_FILE)
 
-list_sentences_train = train["comment_text"].fillna("_na_").values
-list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"]
+list_sentences_train = train["question_text"].fillna("_na_").values
+list_classes = ["target"]
 y = train[list_classes].values
-list_sentences_test = test["comment_text"].fillna("_na_").values
+list_sentences_test = test["question_text"].fillna("_na_").values
 
 special_character_removal=re.compile(r'[^a-z\d ]',re.IGNORECASE)
 replace_numbers=re.compile(r'\d+',re.IGNORECASE)
@@ -171,6 +171,6 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 model.fit(X_t, y, batch_size=1280, epochs=3)
 
 y_test = model.predict([X_te], batch_size=1024, verbose=1)
-sample_submission = pd.read_csv(f'{path}{comp}sample_submission.csv')
+sample_submission = pd.read_csv('./sample_submission.csv')
 sample_submission[list_classes] = y_test
 sample_submission.to_csv('submission_textcnn.csv', index=False)
