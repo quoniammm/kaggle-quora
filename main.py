@@ -80,7 +80,7 @@ X_t = X_t.reshape((X_t.shape[0], 1, X_t.shape[1]))
 X_te = X_te.reshape((X_te.shape[0], 1, X_te.shape[1]))
 
 def get_coefs(word,*arr): return word, np.asarray(arr, dtype='float32')
-embeddings_index = dict(get_coefs(*o.strip().split()) for o in open(EMBEDDING_FILE, encoding="utf-8"))
+embeddings_index = dict(get_coefs(*o.split(" ")) for o in open(EMBEDDING_FILE, encoding="utf8", errors='ignore') if len(o)>100)
 
 all_embs = np.stack(embeddings_index.values())
 emb_mean,emb_std = all_embs.mean(), all_embs.std()
