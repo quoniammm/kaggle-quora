@@ -13,11 +13,11 @@ from nltk.stem import SnowballStemmer
 
 path = '../input/'
 comp = ''
-EMBEDDING_FILE="../input/embeddings/glove.840B.300d/glove.840B.300d.txt"
+EMBEDDING_FILE="../input/glove.840B.300d.txt"
 TRAIN_DATA_FILE='../input/train.csv'
 TEST_DATA_FILE='../input/test.csv'
 
-embed_size = 50 # how big is each word vector
+embed_size = 300 # how big is each word vector
 max_features = 20000 # how many unique words to use (i.e num rows in embedding vector)
 maxlen = 100 # max number of words in a comment to use
 number_filters = 100 # the number of CNN filters
