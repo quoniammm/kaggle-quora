@@ -13,9 +13,9 @@ from nltk.stem import SnowballStemmer
 
 path = '../input/'
 comp = ''
-EMBEDDING_FILE=f'{path}glove.840B.300d.txt'
-TRAIN_DATA_FILE=f'{path}train.csv'
-TEST_DATA_FILE=f'{path}test.csv'
+EMBEDDING_FILE=f'{path}/glove.6B.50d.txt'
+TRAIN_DATA_FILE=f'{path}{comp}train.csv'
+TEST_DATA_FILE=f'{path}{comp}test.csv'
 
 embed_size = 50 # how big is each word vector
 max_features = 20000 # how many unique words to use (i.e num rows in embedding vector)
@@ -69,6 +69,7 @@ for text in list_sentences_test:
     
 
 tokenizer = Tokenizer(num_words=max_features,filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n\'', lower=True)
+# tokenizer = Tokenizer(num_words=max_features)
 tokenizer.fit_on_texts(list(comments + test_comments))
 comments_sequence = tokenizer.texts_to_sequences(comments)
 test_comments_sequence = tokenizer.texts_to_sequences(test_comments)    
@@ -125,7 +126,43 @@ x5 = Activation('relu')(x5)
 x5 = MaxPooling2D((int(int(x5.shape[2])  / 1.5), 1), data_format='channels_first')(x5)
 x5 = Flatten()(x5)
 
+# x6 = Conv2D(number_filters, (5, embed_size), data_format='channels_first')(x)
+# x6 = BatchNormalization()(x6)
+# x6 = Activation('elu')(x6)
+# x6 = MaxPooling2D((int(int(x6.shape[2])  / 1.5), 1), data_format='channels_first')(x6)
+# x6 = Flatten()(x6)
+
+# x7 = Conv2D(number_filters, (6, embed_size), data_format='channels_first')(x)
+# x7 = BatchNormalization()(x7)
+# x7 = Activation('relu')(x7)
+# x7 = MaxPooling2D((int(int(x7.shape[2])  / 1.5), 1), data_format='channels_first')(x7)
+# x7 = Flatten()(x7)
+
+# x8 = Conv2D(number_filters, (7, embed_size), data_format='channels_first')(x)
+# x8 = BatchNormalization()(x8)
+# x8 = Activation('elu')(x8)
+# x8 = MaxPooling2D((int(int(x8.shape[2])  / 1.5), 1), data_format='channels_first')(x8)
+# x8 = Flatten()(x8)
+
+# x9 = Conv2D(number_filters, (8, embed_size), data_format='channels_first')(x)
+# x9 = BatchNormalization()(x9)
+# x9 = Activation('relu')(x9)
+# x9 = MaxPooling2D((int(int(x9.shape[2])  / 1.5), 1), data_format='channels_first')(x9)
+# x9 = Flatten()(x9)
+
+# x10 = Conv2D(number_filters, (9, embed_size), data_format='channels_first')(x)
+# x10 = BatchNormalization()(x10)
+# x10 = Activation('elu')(x10)
+# x10 = MaxPooling2D((int(int(x10.shape[2])  / 1.5), 1), data_format='channels_first')(x10)
+# x10 = Flatten()(x10)
+
 x = concatenate([x1, x2, x3, x4, x5])
+# x = Dropout(0.1)(x)
+# x = Dense(512, activation="elu")(x)
+# x = Dropout(0.1)(x)
+# x = Dense(256, activation="relu")(x)
+# x = Dropout(0.1)(x)
+# x = Dense(6, activation="softmax")(x)
 x = Dense(1, activation="sigmoid")(x)
 model = Model(inputs=inp, outputs=x)
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
