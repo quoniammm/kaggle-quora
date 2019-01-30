@@ -13,9 +13,9 @@ from nltk.stem import SnowballStemmer
 
 path = '../input/'
 comp = ''
-EMBEDDING_FILE="." + "/glove.840B.300d.txt"
-TRAIN_DATA_FILE='./train.csv'
-TEST_DATA_FILE='./test.csv'
+EMBEDDING_FILE="../input/embeddings/glove.840B.300d/glove.840B.300d.txt"
+TRAIN_DATA_FILE='../input/train.csv'
+TEST_DATA_FILE='../input/test.csv'
 
 embed_size = 50 # how big is each word vector
 max_features = 20000 # how many unique words to use (i.e num rows in embedding vector)
@@ -80,7 +80,7 @@ X_t = X_t.reshape((X_t.shape[0], 1, X_t.shape[1]))
 X_te = X_te.reshape((X_te.shape[0], 1, X_te.shape[1]))
 
 def get_coefs(word,*arr): return word, np.asarray(arr, dtype='float32')
-embeddings_index = dict(get_coefs(*o.strip().split()) for o in open(EMBEDDING_FILE))
+embeddings_index = dict(get_coefs(*o.strip().split()) for o in open(EMBEDDING_FILE, encoding="utf-8"))
 
 all_embs = np.stack(embeddings_index.values())
 emb_mean,emb_std = all_embs.mean(), all_embs.std()
